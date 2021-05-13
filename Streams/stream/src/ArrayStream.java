@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -10,9 +11,10 @@ public class ArrayStream {
     public static void main(String[] args) throws Exception {
         
         String[] names = {"Erick","Alan","Inaki","Juan","Imelda","Gaby"};
-        int[] number = {1,2,3,4};
-        
-        // 1. Aplicar Stream a un Array definido
+        int[] number = {-3,-2,1,2,3,4};
+
+        //*************************************************
+        //Aplicar Stream a un Array definido
         System.out.println("==========================");
         System.out.println("Ordenar array con .sorted()");
         System.out.print("Antes de stream: ");
@@ -25,7 +27,13 @@ public class ArrayStream {
             .forEach(x -> System.out.print(x+" | "));
         System.out.println("");
 
-        //2. Filtro de Array con Stream
+
+
+        System.out.println("");
+        //*************************************************
+        //Filtro de Array con Stream
+
+            // Filtrado filter()
         System.out.println("==========================");
         System.out.println("Filtro de Array con .filter()");
         Stream.of(names)
@@ -53,6 +61,7 @@ public class ArrayStream {
             .forEach(y -> System.out.print(y+ " | "));
         System.out.println("");
 
+        //*************************************************
         //2. Operaciones recorriendo un Arreglo de Enteros
         System.out.println("==========================");
         System.out.println("Operaciones recorriendo un Arreglo de Enteros");
@@ -66,9 +75,10 @@ public class ArrayStream {
         ); 
         System.out.println("");
 
-        //3. Recorrer arreglo de arreglo
+        //*************************************************
+        //Recorrer arreglo de arreglo
         System.out.println("==========================");
-        System.out.println("Operaciones recorriendo un Arreglo de Enteros");
+        System.out.println("Usando split para dividir contenido de arreglo por indice despues de coma");
 
         String[] list = {"Erick,15.8,H","Gaby,10,M","Alan,15.8,H","Inaki,8,H"};
         List<String> listString = new ArrayList<>();
@@ -82,9 +92,21 @@ public class ArrayStream {
         listString.forEach(x -> System.out.print(x+" | "));
         System.out.println("");
         System.out.println(listString.size());
-        System.out.println("");
+        System.out.println(" ");
 
-        int inicial = Integer.parseInt(Arrays.stream(number).sorted().findFirst().toString());
-        System.out.println("INICIAL ::::::"+inicial);
+        //*************************************************
+        //Crear arreglo a partir de otro
+
+        System.out.println("CREAR ARREGO A PARTIR DE OTRO");
+        int[] newNumber= Arrays.stream(number)
+                .filter(m -> m>-1)
+                .toArray();
+        System.out.println("Antes de mover");
+        Arrays.stream(number).forEach(m -> System.out.print(m+"|"));
+        System.out.println(" ");
+        System.out.println("Nuevo Array ");
+        Arrays.stream(newNumber).forEach(m -> System.out.print(m+"|"));
+        System.out.println(" ");
+
     }
 }
