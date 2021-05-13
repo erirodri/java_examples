@@ -83,5 +83,8 @@ public class ArrayStream {
         System.out.println("");
         System.out.println(listString.size());
         System.out.println("");
+
+        int inicial = Integer.parseInt(Arrays.stream(number).sorted().findFirst().toString());
+        System.out.println("INICIAL ::::::"+inicial);
     }
 }
