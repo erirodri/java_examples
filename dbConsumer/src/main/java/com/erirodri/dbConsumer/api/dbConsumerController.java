@@ -3,12 +3,14 @@ package com.erirodri.dbConsumer.api;
 import com.erirodri.dbConsumer.model.FotballMatchApi;
 import com.erirodri.dbConsumer.model.UsuarioTb;
 import com.erirodri.dbConsumer.service.interf.UsuarioService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.hibernate.annotations.common.util.impl.LoggerFactory;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,7 +30,7 @@ import java.util.List;
 @RequestMapping(value= "/api/v1/dbConsumer/")  //Es la ruta base para el acceso a los metodos
 public class dbConsumerController {
 
-    private static Logger log = LoggerFactory.getLogger(dbConsumerController.class);
+    private static Logger log = LoggerFactory.logger(dbConsumerController.class);
     private final UsuarioService usuarioService;
 
     @Autowired  //Se indica este envellecedor para generar una persistencia (injectar el elemento)
@@ -38,6 +40,7 @@ public class dbConsumerController {
 
 
     @GetMapping("/apiFotballMatch/{page}")
+    @PreAuthorize("hasRole('APIEXTERNAL')") //Indica que primero valida que tenga algun rol para ejecutar el servicio
     public ResponseEntity<FotballMatchApi> getFotballMatch(@PathVariable("page") String page){
         String apiUrl = "https://jsonmock.hackerrank.com/api/football_matches?page="+page;
         RestTemplate restTempl = new RestTemplate();
@@ -47,6 +50,7 @@ public class dbConsumerController {
         return new ResponseEntity<FotballMatchApi>(apiResult, HttpStatus.OK);
     }
     @GetMapping("/usuarios/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN,ROLE_STUDENT')")
     public ResponseEntity<UsuarioTb> getByIdUser(@NotNull @PathVariable("id") Long idToFind){
         log.info("Usuario a buscar: "+idToFind.toString());
         HttpHeaders headerHttp = new HttpHeaders();
@@ -56,10 +60,11 @@ public class dbConsumerController {
             return new ResponseEntity<UsuarioTb>(userFind, HttpStatus.OK);
         }
         headerHttp.add("Response","ELEMENT NOT FOUND");
-        return new ResponseEntity<UsuarioTb>(userFind, headerHttp, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<UsuarioTb>(userFind, headerHttp, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     @GetMapping("/usuarios/findAll")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN, ROLE_STUDENT')")
     public List<UsuarioTb> findAllUsers(){
         log.info("Buscando Todos los registros");
         List<UsuarioTb> listResult = usuarioService.getAll();
@@ -68,6 +73,7 @@ public class dbConsumerController {
     }
 
     @PostMapping("/usuarios")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<UsuarioTb> insertUser(@Valid @RequestBody UsuarioTb userToSave){
         log.info("Llamado a insert");
         HttpHeaders headerHttp = new HttpHeaders();
@@ -82,6 +88,7 @@ public class dbConsumerController {
     }
 
     @DeleteMapping("/usuarios/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Long> deleteUser(@PathVariable("id") Long idUserToDelete){
         log.info("Llamado a Delete Usuario");
         HttpHeaders headerHttp = new HttpHeaders();
@@ -96,6 +103,7 @@ public class dbConsumerController {
     }
 
     @PutMapping("/usuarios/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<UsuarioTb> updateUser(@PathVariable("id") Long idToUpdate, @Valid @RequestBody UsuarioTb usuarioToUpdate){
         log.info("Llamando a Update Usuario");
         HttpHeaders httpResponse = new HttpHeaders();

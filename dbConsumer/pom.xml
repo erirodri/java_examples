@@ -19,11 +19,47 @@
 	</properties>
 
 	<dependencies>
+		<!-- DEPENDENCIA PARA PODER HACER USO DE HIBERNATE JPA-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		<!-- DEPENDENCIA PARA PODER HACER USO DE SPRING SECURITY-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<!-- DEPENDENCIAS PARA HACER USO DE JWT (JSON Web Token) -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.10.7</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.10.7</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.10.7</version>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
 
+		<dependency>
+			<!-- DEPENDENCIA PARA PODER HACER USO DEL MOTOR DE PLANTILLAS-->
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<!-- DEPENDENCIA PARA PODER HACER USO MULTIMAP -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>28.1-jre</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -34,6 +70,7 @@
 			<version>2.14.1</version>
 			<type>pom</type>
 		</dependency>
+		<!-- DEPENDENCIA PARA PODER HACER USO DE BD EN MEMORIA -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -60,8 +97,7 @@
 		<dependency>
 			<groupId>org.jetbrains</groupId>
 			<artifactId>annotations</artifactId>
-			<version>RELEASE</version>
-			<scope>compile</scope>
+			<version>20.1.0</version>
 		</dependency>
 	</dependencies>
 
@@ -70,6 +106,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>2.4.5</version>
 			</plugin>
 		</plugins>
 	</build>

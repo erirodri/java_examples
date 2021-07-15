@@ -1,9 +1,12 @@
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class App2 {
     public static void main(String[] args) throws Exception {
+        ZonedDateTime zoneDataTime = ZonedDateTime.now();
+
         //int[] number = {-2,4,2,5,3};
         //int[] number = {-2,-3};
         //int[] number = {-3,-1,1,2,3,4,6};
